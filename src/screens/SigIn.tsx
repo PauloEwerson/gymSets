@@ -4,6 +4,7 @@ import LogoSvg from '@assets/logo.svg';
 import Background from '@assets/background.png';
 
 import { Input } from '@components/input';
+import { Button } from '@components/Button';
 
 export function SigIn() {
   return (
@@ -42,6 +43,8 @@ export function SigIn() {
           placeholder='Senha'
           secureTextEntry // não mostra o texto digitado  
         />
+
+        <Button title="Acessar" />
       </Center>
     </VStack>
   )
