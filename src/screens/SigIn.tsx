@@ -7,7 +7,7 @@ import { Input } from '@components/input';
 
 export function SigIn() {
   return (
-    <VStack flex={1} bg="gray.700">
+    <VStack flex={1} bg="gray.700" px={10}>
       <Image
         source={Background}
         alt="Background com pessoas treinando"
@@ -23,18 +23,25 @@ export function SigIn() {
         </Text>
       </Center>
 
-    <Center>
-      <Heading
-        color="gray.100"
-        fontSize="xl"
-        mb={6}
-        fontFamily="heading"
-      >
-        Acesse sua conta
-      </Heading>
+      <Center>
+        <Heading
+          color="gray.100"
+          fontSize="xl"
+          mb={6}
+          fontFamily="heading"
+        >
+          Acesse sua conta
+        </Heading>
 
-      <Input placeholder='E-mail'/>
-      <Input placeholder='Senha'/>
+        <Input
+          placeholder='E-mail'
+          keyboardType='email-address'
+          autoCapitalize='none' // não capitaliza o texto
+        />
+        <Input
+          placeholder='Senha'
+          secureTextEntry // não mostra o texto digitado  
+        />
       </Center>
     </VStack>
   )
