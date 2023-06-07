@@ -1,10 +1,11 @@
 import { Button as ButtonNativeBase, IButtonProps, Text } from 'native-base';
 
 type Props = IButtonProps & {
-  title: string
+  title: string,
+  variant?: 'solid' | 'outline'; // restringe as demais opções
 }
 
-export function Button({ title, variant, ...rest }: Props) {
+export function Button({ title, variant = 'solid', ...rest }: Props) {
   return (
     <ButtonNativeBase
       w="full"
