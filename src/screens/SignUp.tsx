@@ -77,3 +77,5 @@ export function SignUp() {
     </ScrollView>
   )
 }
+
+// Criando as Rotas 02:14
