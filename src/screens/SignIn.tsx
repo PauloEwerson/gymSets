@@ -13,7 +13,7 @@ import Background from '@assets/background.png';
 import { Input } from '@components/input';
 import { Button } from '@components/Button';
 
-export function SigIn() {
+export function SignIn() {
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }} // corrige o scroll
