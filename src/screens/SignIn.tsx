@@ -21,7 +21,7 @@ export function SignIn() {
     >
       <VStack
         flex={1}
-        bg="gray.700"
+        // bg="gray.700"
         px={10}
         pb={16} // Adicionado para corrigir o scroll
       >
