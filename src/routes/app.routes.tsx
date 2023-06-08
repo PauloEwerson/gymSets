@@ -1,3 +1,4 @@
+import { Platform } from 'react-native'; // Saber qual o sistema operacional do usuário
 import { useTheme } from 'native-base';
 import { createBottomTabNavigator, BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 
@@ -22,7 +23,6 @@ export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
 const { Navigator, Screen } = createBottomTabNavigator<AppRoutes>();
 
 export function AppRoutes() {
-
   const { sizes, colors } = useTheme();
 
   const iconSize = sizes[6];
@@ -34,6 +34,13 @@ export function AppRoutes() {
         tabBarShowLabel: false,
         tabBarActiveTintColor: colors.green[500], // Cor do ícone ativo
         tabBarInactiveTintColor: colors.gray[200], // Cor do ícone inativo
+        tabBarStyle: { // Define o estilo da tabbar
+          backgroundColor: colors.gray[600],
+          borderTopWidth: 0,
+          height: Platform.OS === 'android' ? 'auto' : 96,
+          paddingBottom: sizes[10],
+          paddingTop: sizes[6]
+        }
       }}
     >
       <Screen
@@ -66,6 +73,7 @@ export function AppRoutes() {
       <Screen
         name="exercise"
         component={Exercise}
+        options={{ tabBarButton: () => null }} // Torna a rota invisível
       />
     </Navigator>
   )
