@@ -40,6 +40,7 @@ export function History() {
             Vamos fazer exercicíos hoje?
           </Text>
         )}
+        showsVerticalScrollIndicator={false}
       />
     </VStack>
   );
