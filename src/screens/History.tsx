@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Heading, VStack, SectionList, Text } from 'native-base';
 
-import { ScreenHeder } from '@components/ScreenHeader';
+import { ScreenHeader } from '@components/ScreenHeader';
 import { HistoryCard } from '@components/HistoryCard';
 
 export function History() {
@@ -19,7 +19,7 @@ export function History() {
 
   return (
     <VStack flex={1}>
-      <ScreenHeder title="Histórico de Exercícios" />
+      <ScreenHeader title="Histórico de Exercícios" />
 
       <SectionList
         sections={exercises}
