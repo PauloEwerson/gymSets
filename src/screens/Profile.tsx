@@ -14,12 +14,16 @@ export function Profile() {
   const [photoIsLoading, setPhotoIsLoading] = useState(true);
 
   async function handleUserPhotoSelecte() {
-    await ImagePicker.launchImageLibraryAsync({
+    const photoSelected =  await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images, // Somente imagens
       quality: 1, // Qualidade da imagem 
       aspect: [4, 4], // Proporção da imagem
       allowsEditing: true, // Permite editar a imagem
     });
+
+    if(photoSelected.canceled) {
+      return;
+    }
   }
 
   return (
