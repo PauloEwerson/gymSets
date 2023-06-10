@@ -15,18 +15,29 @@ export function Profile() {
   const [userPhoto, setUserPhoto] = useState('https://github.com/PauloEwerson.png');
 
   async function handleUserPhotoSelecte() {
-    const photoSelected = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images, // Somente imagens
-      quality: 1, // Qualidade da imagem 
-      aspect: [4, 4], // Proporção da imagem
-      allowsEditing: true, // Permite editar a imagem
-    });
+    setPhotoIsLoading(true);
+    try {
 
-    if (photoSelected.canceled) {
-      return;
+      const photoSelected = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images, // Somente imagens
+        quality: 1, // Qualidade da imagem 
+        aspect: [4, 4], // Proporção da imagem
+        allowsEditing: true, // Permite editar a imagem
+      });
+
+      if (photoSelected.canceled) {
+        return;
+      }
+
+      if(photoSelected.assets[0].uri) {
+        setUserPhoto(photoSelected.assets[0].uri);
+      }
+
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setPhotoIsLoading(false);
     }
-
-    setUserPhoto(photoSelected.assets[0].uri);
   }
 
   return (
