@@ -11,19 +11,22 @@ import { Button } from '@components/Button';
 const PHOTO_SIZE = 33;
 
 export function Profile() {
-  const [photoIsLoading, setPhotoIsLoading] = useState(true);
+  const [photoIsLoading, setPhotoIsLoading] = useState(false);
+  const [userPhoto, setUserPhoto] = useState('https://github.com/PauloEwerson.png');
 
   async function handleUserPhotoSelecte() {
-    const photoSelected =  await ImagePicker.launchImageLibraryAsync({
+    const photoSelected = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images, // Somente imagens
       quality: 1, // Qualidade da imagem 
       aspect: [4, 4], // Proporção da imagem
       allowsEditing: true, // Permite editar a imagem
     });
 
-    if(photoSelected.canceled) {
+    if (photoSelected.canceled) {
       return;
     }
+
+    setUserPhoto(photoSelected.assets[0].uri);
   }
 
   return (
@@ -43,7 +46,7 @@ export function Profile() {
               />
             ) : (
               <UserPhoto
-                source={{ uri: 'https://github.com/PauloEwerson.png' }}
+                source={{ uri: userPhoto }}
                 alt="Foto do usuário"
                 size={PHOTO_SIZE}
               />
