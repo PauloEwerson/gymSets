@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Alert, TouchableOpacity } from 'react-native';
-import { Center, ScrollView, VStack, Skeleton, Text, Heading } from 'native-base';
+import { Center, ScrollView, VStack, Skeleton, Text, Heading, useToast } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 
@@ -14,6 +14,8 @@ const PHOTO_SIZE = 33;
 export function Profile() {
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
   const [userPhoto, setUserPhoto] = useState('https://github.com/PauloEwerson.png');
+
+  const toast = useToast();
 
   async function handleUserPhotoSelecte() {
     setPhotoIsLoading(true);
@@ -38,7 +40,11 @@ export function Profile() {
         }
 
         if (typeof photoInfo.size === 'number' && (photoInfo.size / 1024 / 1024) > 5) {
-          return Alert.alert("A imagem deve ter no máximo 5MB");
+          return toast.show({
+            title: "A imagem deve ter no máximo 5MB",
+            placement: 'top',
+            bgColor: 'red.600',
+          });
         }
         setUserPhoto(photoSelected.assets[0].uri);
       }
