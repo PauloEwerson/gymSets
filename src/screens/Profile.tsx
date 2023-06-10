@@ -14,14 +14,19 @@ export function Profile() {
   const [photoIsLoading, setPhotoIsLoading] = useState(true);
 
   async function handleUserPhotoSelecte() {
-    await ImagePicker.launchImageLibraryAsync();
+    await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images, // Somente imagens
+      quality: 1, // Qualidade da imagem 
+      aspect: [4, 4], // Proporção da imagem
+      allowsEditing: true, // Permite editar a imagem
+    });
   }
 
   return (
     <VStack flex={1}>
       <ScreenHeader title="Perfil" />
 
-      <ScrollView contentContainerStyle={{paddingBottom: 36 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 36 }}>
         <Center mt={6} px={10}>
           {photoIsLoading
             ? (
