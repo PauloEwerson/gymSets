@@ -13,7 +13,7 @@ import { AuthNavigatorRoutesProps } from '@routes/auth.routes';
 import LogoSvg from '@assets/logo.svg';
 import Background from '@assets/background.png';
 
-import { Input } from '@components/input';
+import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 
 export function SignIn() {

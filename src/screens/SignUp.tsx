@@ -7,19 +7,26 @@ import {
   Heading,
   ScrollView
 } from 'native-base';
+import { useForm, Controller } from 'react-hook-form'
 
 import LogoSvg from '@assets/logo.svg';
 import Background from '@assets/background.png';
 
-import { Input } from '@components/input';
+import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 
 export function SignUp() {
 
+  const { control } = useForm();
+
   const navigation = useNavigation();
 
-  function handleGoBack(){
+  function handleGoBack() {
     navigation.goBack();
+  }
+
+  function handleSignUp() {
+
   }
 
   return (
@@ -58,22 +65,62 @@ export function SignUp() {
             Crie sua conta
           </Heading>
 
-          <Input
-            placeholder="Nome"
+          <Controller
+            control={control}
+            name="name"
+            render={({ field: { onChange, value } }) => (
+              <Input
+                placeholder="Nome"
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
           />
 
-          <Input
-            placeholder='E-mail'
-            keyboardType='email-address'
-            autoCapitalize='none' // não capitaliza o texto
+          <Controller
+            control={control}
+            name="Email"
+            render={({ field: { onChange, value } }) => (
+              <Input
+                placeholder='E-mail'
+                keyboardType='email-address'
+                autoCapitalize='none' // não capitaliza o texto
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
           />
 
-          <Input
-            placeholder='Senha'
-            secureTextEntry // não mostra o texto digitado  
+          <Controller
+            control={control}
+            name="password"
+            render={({ field: { onChange, value } }) => (
+              <Input
+                placeholder='Senha'
+                secureTextEntry // não mostra o texto digitado  
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
           />
 
-          <Button title="Criar e acessar" />
+          <Controller
+            control={control}
+            name="password_confirm"
+            render={({ field: { onChange, value } }) => (
+              <Input
+                placeholder='Confirme a senha'
+                secureTextEntry // não mostra o texto digitado  
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+
+          <Button
+            title="Criar e acessar"
+            onPress={handleSignUp}
+          />
         </Center>
 
         <Button
@@ -87,4 +134,3 @@ export function SignUp() {
   )
 }
 
-// Criando as Rotas 02:14
