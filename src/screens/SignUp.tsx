@@ -154,4 +154,3 @@ export function SignUp() {
     </ScrollView>
   )
 }
-
