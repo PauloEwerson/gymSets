@@ -79,8 +79,8 @@ export function SignUp() {
           <Heading
             color="gray.100"
             fontSize="xl"
-            mb={6}
             fontFamily="heading"
+            mb={6}
           >
             Crie sua conta
           </Heading>
@@ -152,7 +152,7 @@ export function SignUp() {
         <Button
           title="Voltar para o login"
           variant="outline"
-          mt={24}
+          mt={12}
           onPress={handleGoBack}
         />
       </VStack>
