@@ -1,4 +1,3 @@
-import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {
   VStack,
@@ -6,19 +5,20 @@ import {
   Text,
   Center,
   Heading,
-  ScrollView
+  ScrollView,
+  useToast
 } from 'native-base';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-
-import axios from 'axios';
 
 import LogoSvg from '@assets/logo.svg';
 import Background from '@assets/background.png';
 
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
+
+import { AppError } from '@utils/AppError';
 import { api } from '@services/api';
 
 type FormDataProps = {
@@ -38,6 +38,8 @@ const signUpFormSchema = yup.object({
 })
 
 export function SignUp() {
+
+  const toast = useToast();
 
   const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
     resolver: yupResolver(signUpFormSchema)
@@ -59,10 +61,13 @@ export function SignUp() {
 
       console.log(response.data);
     } catch (error) {
-      if(axios.isAxiosError(error)) { // verifica se o erro é do axios
-        console.log(error.response?.data);
-        Alert.alert('Erro', error.response?.data.message);
-      }
+      const isAppError = error instanceof AppError;
+
+      toast.show({
+        title: isAppError ? error.message : 'Ocorreu um erro ao fazer o cadastro. Tente novamente mais tarde.',
+        placement: 'top',
+        bgColor: 'red.500',
+      })
     }
   }
 
