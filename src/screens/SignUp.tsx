@@ -1,3 +1,4 @@
+import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {
   VStack,
@@ -11,11 +12,14 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+import axios from 'axios';
+
 import LogoSvg from '@assets/logo.svg';
 import Background from '@assets/background.png';
 
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
+import { api } from '@services/api';
 
 type FormDataProps = {
   name: string;
@@ -47,23 +51,18 @@ export function SignUp() {
 
   async function handleSignUp({ name, email, password }: FormDataProps) {
     try {
-      const response = await fetch('http://192.168.0.13:3333/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', // define o tipo de dado que será enviado
-          'Accept': 'application/json', // define o tipo de dado que será retornado
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password
-        })
-      })
+      const response = await api.post('/users', {
+        name,
+        email,
+        password
+      });
 
-      const data = await response.json();
-      console.log(data);
+      console.log(response.data);
     } catch (error) {
-      console.log(error);
+      if(axios.isAxiosError(error)) { // verifica se o erro é do axios
+        console.log(error.response?.data);
+        Alert.alert('Erro', error.response?.data.message);
+      }
     }
   }
 
