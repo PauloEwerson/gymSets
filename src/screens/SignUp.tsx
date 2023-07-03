@@ -45,8 +45,26 @@ export function SignUp() {
     navigation.goBack();
   }
 
-  function handleSignUp(data: FormDataProps) {
-    console.log(data)
+  async function handleSignUp({ name, email, password }: FormDataProps) {
+    try {
+      const response = await fetch('http://192.168.0.13:3333/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', // define o tipo de dado que será enviado
+          'Accept': 'application/json', // define o tipo de dado que será retornado
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password
+        })
+      })
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
