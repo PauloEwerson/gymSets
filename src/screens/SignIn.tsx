@@ -13,6 +13,8 @@ import * as yup from 'yup';
 
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes';
 
+import { useAuth } from "@hooks/useAuth"
+
 import LogoSvg from '@assets/logo.svg';
 import Background from '@assets/background.png';
 
@@ -30,6 +32,7 @@ const signInFormSchema = yup.object({
 });
 
 export function SignIn() {
+  const { signIn } = useAuth();
 
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
   const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
@@ -40,8 +43,8 @@ export function SignIn() {
     navigation.navigate('signUp');
   }
 
-  function handleSignIn(data: FormDataProps) {
-    console.log(data);
+  function handleSignIn({email, password}: FormDataProps) {
+    signIn(email, password);
   }
 
   return (
