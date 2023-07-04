@@ -62,7 +62,7 @@ export function SignUp() {
       console.log(response.data);
     } catch (error) {
       const isAppError = error instanceof AppError;
-
+      console.log(error)
       toast.show({
         title: isAppError ? error.message : 'Ocorreu um erro ao fazer o cadastro. Tente novamente mais tarde.',
         placement: 'top',
