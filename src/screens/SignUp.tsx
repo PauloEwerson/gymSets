@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {
   VStack,
@@ -12,6 +13,9 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+import { api } from '@services/api';
+import { useAuth } from '@hooks/useAuth';
+
 import LogoSvg from '@assets/logo.svg';
 import Background from '@assets/background.png';
 
@@ -19,7 +23,6 @@ import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 
 import { AppError } from '@utils/AppError';
-import { api } from '@services/api';
 
 type FormDataProps = {
   name: string;
@@ -38,8 +41,10 @@ const signUpFormSchema = yup.object({
 })
 
 export function SignUp() {
+  const [isLoading, setIsLoading] = useState(false);
 
   const toast = useToast();
+  const { signIn } = useAuth();
 
   const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
     resolver: yupResolver(signUpFormSchema)
@@ -53,14 +58,16 @@ export function SignUp() {
 
   async function handleSignUp({ name, email, password }: FormDataProps) {
     try {
-      const response = await api.post('/users', {
+      setIsLoading(true);
+      await api.post('/users', {
         name,
         email,
         password
       });
+      await signIn(email, password);
 
-      console.log(response.data);
     } catch (error) {
+      setIsLoading(false);
       const isAppError = error instanceof AppError;
       console.log(error)
       toast.show({
@@ -168,6 +175,7 @@ export function SignUp() {
           <Button
             title="Criar e acessar"
             onPress={handleSubmit(handleSignUp)}
+            isLoading={isLoading}
           />
         </Center>
 
