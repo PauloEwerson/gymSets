@@ -9,3 +9,12 @@ export async function storageAuthTokenSave(token: string) {
     console.log('Error saving token on storage');
   }
 }
+
+export async function storageAuthTokenGet() {
+  try {
+    const token = await AsyncStorage.getItem(AUTH_TOKEN_STORAGE);
+    return token;
+  } catch (error) {
+    console.log('Error getting token on storage');
+  }
+}
