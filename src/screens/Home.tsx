@@ -4,6 +4,7 @@ import { VStack, FlatList, HStack, Heading, Text, useToast } from 'native-base';
 
 import { api } from '@services/api';
 import { AppError } from '@utils/AppError';
+import { ExerciseDTO } from '@dtos/ExerciseDTO';
 
 import { AppNavigatorRoutesProps } from '@routes/app.routes';
 
@@ -11,10 +12,9 @@ import { HomeHeader } from '@components/HomeHeader';
 import { Group } from '@components/Group';
 import { ExerciseCard } from '@components/ExerciseCard';
 
-
 export function Home() {
   const [groups, setGroups] = useState<string[]>([])
-  const [exercises, setExercises] = useState([])
+  const [exercises, setExercises] = useState<ExerciseDTO[]>([])
   const [groupSelected, setGroupSelected] = useState('')
 
   const toast = useToast();
@@ -28,6 +28,11 @@ export function Home() {
     try {
       const response = await api.get('/groups');
       setGroups(response.data);
+
+      if (response.data.length > 0) {
+        setGroupSelected(response.data[0]);
+      }
+      
     } catch (error) {
       const isAppError = error instanceof AppError;
       const title = isAppError ? error.message : 'Não foi possível carregar os grupos musculares';
@@ -101,10 +106,11 @@ export function Home() {
 
         <FlatList
           data={exercises}
-          keyExtractor={item => item}
+          keyExtractor={item => item.id}
           renderItem={({ item }) => (
             <ExerciseCard
               onPress={handleOpenExerciseDetails}
+              data={item}
             />
           )}
           showsVerticalScrollIndicator={false}
