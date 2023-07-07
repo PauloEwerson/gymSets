@@ -18,3 +18,11 @@ export async function storageAuthTokenGet() {
     console.log('Error getting token on storage');
   }
 }
+
+export async function storageAuthTokenRemove() {
+  try {
+    await AsyncStorage.removeItem(AUTH_TOKEN_STORAGE);
+  } catch (error) {
+    console.log('Error removing token on storage');
+  }
+}
