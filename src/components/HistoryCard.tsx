@@ -17,7 +17,7 @@ export function HistoryCard({ data }: Props) {
       alignItems="center"
       justifyContent="space-between"
     >
-      <VStack mr={5} flex={1}>
+      <VStack mr={5}>
         <Heading color="white" fontSize="md" fontFamily="heading" textTransform="capitalize" numberOfLines={1}>
           {data.group}
         </Heading>
