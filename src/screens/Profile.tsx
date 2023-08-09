@@ -12,6 +12,8 @@ import { AppError } from '@utils/AppError';
 
 import { useAuth } from '@hooks/useAuth';
 
+import defautlUserPhotoImg from '@assets/userPhotoDefault.png';
+
 import { ScreenHeader } from '@components/ScreenHeader';
 import { UserPhoto } from '@components/UserPhoto';
 import { Input } from '@components/Input';
@@ -52,7 +54,6 @@ const profileSchema = yup.object({
 export function Profile() {
   const [isUpdating, setUpdating] = useState(false);
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
-  const [userPhoto, setUserPhoto] = useState('https://github.com/PauloEwerson.png');
 
   const toast = useToast();
   const { user, updateUserProfile } = useAuth();
@@ -103,22 +104,28 @@ export function Profile() {
           uri: photoSelected.assets[0].uri,
           type: `${photoSelected.assets[0].type}/${fileExtension}`,
         } as any;
-        
+
         const userPhotoUploadPhoto = new FormData();
         userPhotoUploadPhoto.append('avatar', photoFile);
 
-        await api.patch('/users/avatar', userPhotoUploadPhoto, {
+        const avatarUpdatedResponse = await api.patch('/users/avatar', userPhotoUploadPhoto, {
           headers: {
             'Content-Type': 'multipart/form-data',
           }
         });
+
+        const userUpdated = user;
+        userUpdated.avatar = avatarUpdatedResponse.data.avatar;
+        updateUserProfile(userUpdated);
+
+        console.log(userUpdated)
 
         toast.show({
           title: "Foto de perfil atualizada",
           placement: 'top',
           bgColor: 'green.500',
         })
-        
+
       }
 
     } catch (error) {
@@ -175,7 +182,11 @@ export function Profile() {
               />
             ) : (
               <UserPhoto
-                source={{ uri: userPhoto }}
+                source={
+                  user.avatar
+                    ? { uri: `${api.defaults.baseURL}/avatar/${user.avatar}` }
+                    : defautlUserPhotoImg
+                }
                 alt="Foto do usuário"
                 size={PHOTO_SIZE}
               />
