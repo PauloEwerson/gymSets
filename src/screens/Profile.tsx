@@ -62,7 +62,7 @@ export function Profile() {
       name: user.name,
       email: user.email,
     },
-    resolver: yupResolver(profileSchema),
+    resolver: yupResolver(profileSchema) as any,
   });
 
   async function handleUserPhotoSelecte() {
@@ -96,14 +96,29 @@ export function Profile() {
         }
 
         const fileExtension = photoSelected.assets[0].uri.split('.').pop();
-        const userName = `${user.name?.replace(' ', '_')}`;
+        const userName = `${user.name?.replace(' ', '_')}`; // Substitui os espaços por underline
 
         const photoFile = {
           name: `${userName}.${fileExtension}`.toLocaleLowerCase(),
           uri: photoSelected.assets[0].uri,
           type: `${photoSelected.assets[0].type}/${fileExtension}`,
-        }
-        console.log(photoFile)
+        } as any;
+        
+        const userPhotoUploadPhoto = new FormData();
+        userPhotoUploadPhoto.append('avatar', photoFile);
+
+        await api.patch('/users/avatar', userPhotoUploadPhoto, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          }
+        });
+
+        toast.show({
+          title: "Foto de perfil atualizada",
+          placement: 'top',
+          bgColor: 'green.500',
+        })
+        
       }
 
     } catch (error) {
