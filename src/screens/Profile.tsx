@@ -94,7 +94,16 @@ export function Profile() {
             bgColor: 'red.600',
           });
         }
-        setUserPhoto(photoSelected.assets[0].uri);
+
+        const fileExtension = photoSelected.assets[0].uri.split('.').pop();
+        const userName = `${user.name?.replace(' ', '_')}`;
+
+        const photoFile = {
+          name: `${userName}.${fileExtension}`.toLocaleLowerCase(),
+          uri: photoSelected.assets[0].uri,
+          type: `${photoSelected.assets[0].type}/${fileExtension}`,
+        }
+        console.log(photoFile)
       }
 
     } catch (error) {
